@@ -117,7 +117,6 @@ const ProductList = () => {
             };
             axios.post('https://fakestoreapi.com/products', productData)
                 .then(response => {
-                    console.log(response);
                     setFormData({ title: '', price: '', description: '', category: '', rating: { rate: '', count: '' } });
                     setAddnewproductModal(false);
                     const newProduct = {
