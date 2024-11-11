@@ -22,7 +22,6 @@ const ProductList = () => {
     });
 
     const [errors, setErrors] = useState({});
-    const [success, setSuccess] = useState(false);
 
 
     useEffect(() => {
@@ -119,7 +118,6 @@ const ProductList = () => {
             axios.post('https://fakestoreapi.com/products', productData)
                 .then(response => {
                     console.log(response);
-                    setSuccess(true);
                     setFormData({ title: '', price: '', description: '', category: '', rating: { rate: '', count: '' } });
                     setAddnewproductModal(false);
                     const newProduct = {
@@ -130,7 +128,6 @@ const ProductList = () => {
                 })
                 .catch(error => {
                     console.error(error);
-                    setSuccess(false);
                 });
         }
     };
@@ -186,12 +183,13 @@ const ProductList = () => {
                                     </p>
                                    </div>
                                     <p className='text-start mb-1'><strong>Price: </strong><span className='text-success'>{data.price}</span></p>
-                                    <p className='text-start mb-1'><strong>Description:-</strong></p>
-                                    <p className='text-start mb-2 text-secondary'>
+                                    <p className='text-start mb-2'>
+                                    <strong>Description: </strong>
+                                    <span className='text-secondary'>
                                         {expandedProductIds.includes(data.id)
                                             ? data.description
                                             : `${data.description.length > 40 ? data.description.slice(0, 40) + '...' : data.description}`}
-                                        <br />
+                                        </span>
                                         <span onClick={() => toggleReadMore(data.id)} style={{ color: 'blue', cursor: 'pointer' }}>
                                             {expandedProductIds.includes(data.id) ? 'Read Less' : 'Read More'}
                                         </span>
@@ -225,25 +223,25 @@ const ProductList = () => {
                     <Modal.Title>Add New Product</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form onSubmit={handleSubmit}>
+                    <form >
                         <div className="my-1">
                             <label htmlFor="title" className="form-label"><h6 className='mb-0'>Title</h6></label>
                             <input type="text" className={`form-control ${errors.title ? 'is-invalid' : ''}`}
-                                id="title" name="title" value={formData.title} onChange={handleChange} />
+                                id="title" name="title" placeholder="Enter title" value={formData.title} onChange={handleChange} />
                             {errors.title && <div className="invalid-feedback">{errors.title}</div>}
                         </div>
 
                         <div className="my-1">
                             <label htmlFor="price" className="form-label"><h6 className='mb-0'>Price</h6></label>
                             <input type="number" className={`form-control ${errors.price ? 'is-invalid' : ''}`}
-                                id="price" name="price" value={formData.price} onChange={handleChange} />
+                                id="price" name="price" placeholder="Enter price" value={formData.price} onChange={handleChange} />
                             {errors.price && <div className="invalid-feedback">{errors.price}</div>}
                         </div>
 
                         <div className="my-1">
                             <label htmlFor="description" className="form-label"><h6 className='mb-0'>Description</h6></label>
                             <textarea className={`form-control ${errors.description ? 'is-invalid' : ''}`}
-                                id="description" name="description" rows="3" value={formData.description}
+                                id="description" name="description" placeholder="Enter descripation" rows="3" value={formData.description}
                                 onChange={handleChange}  ></textarea>
                             {errors.description && <div className="invalid-feedback">{errors.description}</div>}
                         </div>
@@ -251,7 +249,7 @@ const ProductList = () => {
                         <div className="my-1">
                             <label htmlFor="category" className="form-label"><h6 className='mb-0'>Category</h6></label>
                             <input type="text" className={`form-control ${errors.category ? 'is-invalid' : ''}`}
-                                id="category" name="category" value={formData.category} onChange={handleChange}
+                                id="category" name="category" placeholder="Enter category" value={formData.category} onChange={handleChange}
                             />
                             {errors.category && <div className="invalid-feedback">{errors.category}</div>}
                         </div>
@@ -261,16 +259,16 @@ const ProductList = () => {
                                 <label className="form-label my-2"><h6 className='mb-0'>Rating</h6></label>
                                 <input type="number" name="rate"
                                     value={formData.rating.rate || ""} onChange={handleChange} className="form-control me-2"
-                                    placeholder="Rating" />
+                                    placeholder="Enter rating" />
                             </div>
                             <div>
                                 <label className="form-label my-2"><h6 className='mb-0'>Count</h6></label>
                                 <input type="number" name="count" value={formData.rating.count || ""} onChange={handleChange}
-                                    className="form-control" placeholder="Rating Count" />
+                                    className="form-control" placeholder="Enter Count" />
                             </div>
                         </div>
                         <div className='text-center mt-4'>
-                            <button type="submit" className="btn btn-primary">Submit</button>
+                            <button  onClick={(e)=>handleSubmit(e) } className="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </Modal.Body>
